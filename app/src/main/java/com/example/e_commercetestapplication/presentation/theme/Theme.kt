@@ -1,4 +1,4 @@
-package com.example.e_commercetestapplication.ui.theme
+package com.example.e_commercetestapplication.presentation.theme
 
 import android.app.Activity
 import android.os.Build

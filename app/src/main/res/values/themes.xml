@@ -2,4 +2,17 @@
 <resources>
 
     <style name="Theme.ECommerceTestApplication" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.SplashScreenApp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item>
+
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/shopping</item>
+        <item name="windowSplashScreenIconBackgroundColor">#000000</item>
+        <item name="windowSplashScreenBackground">#ffffff </item>
+        <item name="postSplashScreenTheme">@style/Theme.SplashScreenApp</item>
+    </style>
+
 </resources>
