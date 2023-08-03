@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -32,7 +33,8 @@ fun HomePage(
     Scaffold(
         modifier = Modifier
             .padding(start = 25.dp, top = 10.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag("HomeTest"),
         bottomBar = {
             AppBar(counter = viewModel.cartListLItem.collectAsState().value.size, onCartIconClick = {
                 navHostController.navigate(AllScreenRote.CartList.route)
@@ -44,7 +46,7 @@ fun HomePage(
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.productList) { product ->
                     ProductItem(product = product ){
-                        viewModel.selectMethod(product)
+                        viewModel.selectItem(product)
                         navHostController.navigate(AllScreenRote.ProductDetails.route)
                     }
                 }
