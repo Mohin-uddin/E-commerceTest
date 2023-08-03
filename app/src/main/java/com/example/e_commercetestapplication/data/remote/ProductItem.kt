@@ -22,6 +22,7 @@ data class ProductItem(
     val category: String,
     @field:Json(name = "thumbnail")
     val image: String,
-    var counter: Int = 0
+    var counter: Int = 0,
+    var productStatus: String = "No"
 
 )

@@ -1,16 +1,15 @@
 package com.example.e_commercetestapplication.presentation.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_commercetestapplication.data.remote.ProductItem
+import com.example.e_commercetestapplication.data.remote.ProductListResponse
 import com.example.e_commercetestapplication.domain.repository.GetProductListRepository
 import com.example.e_commercetestapplication.domain.repository.ProductLocalDatabaseRepository
 import com.example.e_commercetestapplication.domain.util.Resource
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             delay(3000)
             _isLoading.value = false
-            loadWeatherInfo()
+            loadProductList()
         }
     }
 
@@ -45,16 +44,18 @@ class MainViewModel @Inject constructor(
     var state by mutableStateOf(ProductListState())
         private set
 
-    fun loadWeatherInfo() {
+    private fun loadProductList() {
         viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
                 error = ""
             )
+
             when(val result = repository.getProductData()){
                 is Resource.Success -> {
                     state = state.copy(
-                        productList = result.data?.productList ?: emptyList(),
+                        productList = dataAttach(result.data)
+                        ,
                         isLoading = false,
                         error = ""
                     )
@@ -71,10 +72,22 @@ class MainViewModel @Inject constructor(
 
     }
 
-    fun selectMethod( productItem: ProductItem){
+    private fun dataAttach(data: ProductListResponse?): List<ProductItem> {
+        val updateList : ArrayList <ProductItem> = arrayListOf ()
+        data?.productList?.forEach { productItem ->
+            productItem.productStatus = returnProductStatus()
+            updateList.add(productItem)
+        }
+       return updateList
+    }
+
+    private fun returnProductStatus():String{
+        val status  = arrayOf("Available","StockOut","Coming Soon")
+        val index = (0..2).random()
+        return status[index]
+    }
+    fun selectItem( productItem: ProductItem){
         _selectProduct.value = productItem
-
-
     }
     fun cartDataAdd(productItem: ProductItem){
         viewModelScope.launch {

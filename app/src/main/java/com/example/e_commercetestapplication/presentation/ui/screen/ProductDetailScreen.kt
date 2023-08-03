@@ -70,7 +70,7 @@ fun productDetailScreen(
                     )
                 }
                 Text(
-                    text = "CART",
+                    text = "Product Details",
                     fontSize = 20.sp,
                     color = Color(0xFF000000),
                     fontWeight = FontWeight.Bold,
@@ -208,6 +208,7 @@ fun productDetailScreen(
                 }
 
 
+                if(product?.productStatus=="Available"){
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -242,7 +243,9 @@ fun productDetailScreen(
                         Text(text = "Add to Cart", fontSize = 16.sp)
                     }
                 }
-
+                }else{
+                    Text(product?.productStatus?:"", color = Color.Black,fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                }
 
             }
 
